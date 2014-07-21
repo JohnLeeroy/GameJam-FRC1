@@ -1,20 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlanetRotation : MonoBehaviour {
-	
-	private GameObject player;
-	
-	
-	void Awake()
-	{
-	  	
-	}
-	
-	
+public class Projectile : MonoBehaviour {
+
 	// Use this for initialization
-	void Start () 
-	{
+	void Start () {
 	
 	}
 	

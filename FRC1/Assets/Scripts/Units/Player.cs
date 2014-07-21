@@ -142,7 +142,6 @@ public class Player : Unit
 			
 			break;
 		}
-
 	}
 
 	void OnGUI()
@@ -171,9 +170,7 @@ public class Player : Unit
 
 	void Die()
 	{
-
 		Instantiate(soundDummy,this.transform.position,this.transform.rotation);
-
 	}
 }
 
