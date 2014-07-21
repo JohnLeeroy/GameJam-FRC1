@@ -165,9 +165,9 @@ public class Enemy : Unit {
 				SpawnPowerup();
 
 			
-
+			Instantiate(soundExplosionDummy,this.transform.position,transform.rotation);
 		}
-		Instantiate(soundExplosionDummy,this.transform.position,transform.rotation);
+		
 		Player.m_score+=m_score;
 	}
 
