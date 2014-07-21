@@ -6,10 +6,6 @@ public class WorldRenderer : MonoBehaviour {
 
         public GameObject player;
 
-        public GameObject smallPlanet;
-        public GameObject largePlanet;
-        public GameObject enemy;
-
         public List<GameObject> foregroundObjects;
         public List<GameObject> backgroundObjects;
         public List<GameObject> prefabs;
@@ -66,15 +62,38 @@ public class WorldRenderer : MonoBehaviour {
             limit LargePlanets = new limit(8, 0);
             limit SmallPlanets = new limit(30, 0);
             limit Debris = new limit(50, 0);
+		
+		StartCoroutine(CR_DeleteFarObjects());
+	}
+	
+	IEnumerator CR_DeleteFarObjects()
+	{
+		List<GameObject> removeList = new List<GameObject>();
+		Vector3 playerPos;
+		while(true)
+		{
+			playerPos = player.transform.position;
+			foreach(GameObject obj in backgroundObjects)
+			{
+				if (Vector3.Distance(playerPos, obj.transform.position) > renderRadius)
+					removeList.Add(obj);
+			}
+			
+			foreach(GameObject obj in removeList)
+			{
+				backgroundObjects.Remove(obj);
+                Destroy( obj );
+			}
+			yield return new WaitForSeconds(2f);
+		}    	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-            spawnTimer += spawnRate;
-            // if it's time to respawn
-            SpawnObjects();
-            DelteFarObjects();
-        }
+        spawnTimer += spawnRate;
+        // if it's time to respawn
+        SpawnObjects();
+    }
         
         // Gets an appropriate offset for the world object
         float getRandomOffset(float renderRadius, float minSpawnDistance)
@@ -98,18 +117,6 @@ public class WorldRenderer : MonoBehaviour {
             }
         }
 
-        void DelteFarObjects()
-        {
-            for (int i = backgroundObjects.Count - 1; i >= 0; i--)
-            {
-                GameObject obj = backgroundObjects[i];
-                if (Vector3.Distance(player.transform.position, obj.transform.position) > renderRadius)
-                {
-                    backgroundObjects.RemoveAt(i);
-                    Destroy( obj );
-                }
-            }
-        }
 
         GameObject getNextSpawnObject()
         {
@@ -161,12 +168,59 @@ public class WorldRenderer : MonoBehaviour {
             catch { }
             return mucho;
         }
-
-        //public bool Delete(GameObject obj)
-        //{
-        //    bool del = false;
-        //    del = foregroundObjects.Remove(obj);
-        //    Destroy(obj);
-        //    return del;
-        //}
+	
+		void OnDestroy()
+		{
+				
+		}
 }
+
+
+/*
+/////////////////////////////// Why is this bad? /////////////////////////////// 
+ 	void Update () {
+           
+        DelteFarObjects();
+    }
+    
+	void DelteFarObjects()
+    {
+        for (int i = backgroundObjects.Count - 1; i >= 0; i--)
+        {
+            GameObject obj = backgroundObjects[i];
+            if (Vector3.Distance(player.transform.position, obj.transform.position) > renderRadius)
+            {
+                backgroundObjects.RemoveAt(i);
+                Destroy( obj );
+            }
+        }
+    }
+    
+/////////////////////////////// How to make it better? ///////////////////////////////
+ 	
+ 	void Start () {
+		StartCoroutine(CR_DeleteFarObjects());
+	}
+	
+	IEnumerator CR_DeleteFarObjects()
+	{
+		List<GameObject> removeList = new List<GameObject>();
+		Vector3 playerPos;
+		while(true)
+		{
+			playerPos = player.transform.position;
+			foreach(GameObject obj in backgroundObjects)
+			{
+				if (Vector3.Distance(playerPos, obj.transform.position) > renderRadius)
+					removeList.Add(obj);
+			}
+			
+			foreach(GameObject obj in removeList)
+			{
+				backgroundObjects.Remove(obj);
+                Destroy( obj );
+			}
+			yield return new WaitForSeconds(2f);
+		}    	
+	}
+*/

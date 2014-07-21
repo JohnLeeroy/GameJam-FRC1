@@ -102,7 +102,7 @@ public class Player : Unit
 	void OnTriggerEnter(Collider other)
 	{
 
-		print (other.tag);
+		//print (other.tag);
 		switch (other.tag) {
 			case "Enemy":
 				Hit();

@@ -47,16 +47,6 @@ public class Enemy : Unit {
 
 		m_score=100;
 	}
-	
-	void OnTriggerEnter(Collider other)
-	{
-		Unit player= (Unit)other.GetComponent<Unit>();
-	
-		if(other.tag == "PlayerBullet")
-		{
-		    //throw new System.Exception();
-		}
-	}
 
 	float GetDistance()
 	{
