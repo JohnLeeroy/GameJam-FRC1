@@ -1,18 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Laser :Unit {
+public class Laser : Projectile {
 
-	public float m_lifeTime=3.0f;
-
-	public Vector2 velocity;
 
 	public string soundStamp;
-
-	public AudioClip[] shootSFX;
-
-	public AudioSource[] sources;
-
 
 	//Not every frame
 
@@ -29,10 +21,8 @@ public class Laser :Unit {
         }
 
 	// Use this for initialization
-	void Start () {
-		//gameObject.name = "Laser";
-		transform.parent = GameObject.Find ("LaserContainer").transform;
-		Destroy( gameObject, m_lifeTime);
+	new void Start () {
+		base.Start();
 		
 		//Random i
 		int i =Random.Range(0,shootSFX.Length);
@@ -50,13 +40,13 @@ public class Laser :Unit {
 		}
 		
 	}
+	public override void Launch(Vector3 dir)
+	{
+		direction = dir;
+	}
 	
-	// Update is called once per frame
 	void Update () {
-
-		//this.transform.position += this.transform.forward*Time.deltaTime;
-
-		transform.position += transform.up * Time.deltaTime*m_speed;
+		transform.position += direction * Time.deltaTime * m_speed;
 	}
 
 	void OnTriggerEnter(Collider trigger)
@@ -111,11 +101,3 @@ public class Laser :Unit {
 	//}
 }
 
-
-//1E 10E
-//2E 3
-//3E 1
-
-//Laser
-//rapidfire
-//bu

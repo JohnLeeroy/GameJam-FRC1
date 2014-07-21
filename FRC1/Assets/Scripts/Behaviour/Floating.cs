@@ -10,20 +10,20 @@ public class Floating : Unit {
 		float x=(float) Random.Range(-2000,2000) / 1000.0f;
 		float y= (float) Random.Range(-2000,2000)/1000.0f;
 
-	m_velocity= new Vector3(x,y,0);
+	//m_velocity= new Vector3(x,y,0);
 	m_speed= Random.Range(-3,3);
 
 		if(m_speed==0)
 			m_speed++;
 
-		m_velocity*=m_speed;
+		//m_velocity*=m_speed;
 		tag=("Floating");
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position+= (m_velocity*Time.deltaTime);
+		//transform.position+= (m_velocity*Time.deltaTime);
 
 	}
 

@@ -17,7 +17,7 @@ public class Powerup : MonoBehaviour {
 			player = GameObject.FindGameObjectWithTag ("Player").transform;
 
 		StartCoroutine (CR_DistanceCheck ());
-		transform.parent = GameObject.Find ("WorldRenderer").transform;
+		transform.parent = GameObject.Find ("BackgroundSpawner").transform;
 	}
 	
 	float GetDistance()

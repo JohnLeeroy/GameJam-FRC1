@@ -7,7 +7,7 @@ public class PlayerShoot : MonoBehaviour
 {
 	
 	public static PlayerShoot Instance;
-	
+	/*
 	public GameObject [] 	bulletTypes;
 	public GameObject []	mainGunSpawners;
 	public GameObject []    sideGunsSpawners;
@@ -47,26 +47,20 @@ public class PlayerShoot : MonoBehaviour
 	private bool			stage2Set = false;
 	private bool 			stage3Set = false;
 	private int 		 	sideGunsSpawnersIndex = 0;
-	
-
 
 	public AudioClip[] shootSFX;
 	public List<AudioSource> sources;
 
 	public int sfxCount=0;
 
-	
-	
 	void Awake()
 	{
 		Instance = this;
 	}
 	
-	
 	// Use this for initialization
 	void Start () 
 	{
-		
 		ship_FireType = new bool [3];
 		ship_FireType[0] = true;
 		ship_FireType[1] = false;
@@ -88,9 +82,7 @@ public class PlayerShoot : MonoBehaviour
 		m_fireRateMult[0] = 3f;
 		m_fireRateMult[1] = 6f;
 		m_fireRateMult[2] = 9f;
-
-
-        }
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -238,12 +230,8 @@ public class PlayerShoot : MonoBehaviour
 				}
 			}
 		}
-		
-        
 	}
 
-        
-	
 	private void Testing()
 	{
 		if(Input.GetKeyDown(KeyCode.V))
@@ -319,4 +307,5 @@ public class PlayerShoot : MonoBehaviour
 			m_fireRateIndex  = 2;
 		}
 	}
+	*/
 }

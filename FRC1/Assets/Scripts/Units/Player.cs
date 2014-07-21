@@ -10,7 +10,7 @@ public class Player : Unit
 	public bool isAlive;
 	public GameObject soundDummy;
 
-    
+   	public Gun[] guns;
 
     public int Score;
 	public int scoreOT=10; //Score over time
@@ -20,9 +20,9 @@ public class Player : Unit
 	public GUIStyle scoreStyle;
 	public Rect m_scoreRect;
 
-        public float r_speed = 1000.0f;
-         
-        public float m_drag = -1.0f;        public float v_Input = 0f;        public float h_Input = 0f;            public bool moving = false;
+    public float r_speed = 1000.0f;
+     
+    public float m_drag = -1.0f;    public float v_Input = 0f;    public float h_Input = 0f;    public bool moving = false;
 
 
         // Use this for initialization
@@ -35,12 +35,6 @@ public class Player : Unit
         
 	void Start()
 	{
-		//Velocity
-	
-
-		//Variables
-		m_speed = 1000.0f;
-
 		//Health
 		m_health = 3.0f;
 
@@ -61,48 +55,42 @@ public class Player : Unit
 	void Update()
 	{
 		if(isAlive)
-		{Score = m_score;
-
-		scoreTimer+=Time.deltaTime;
-
-		if(scoreTimer >=1.0f)
 		{
-			m_score+=scoreOT;
-			scoreTimer=0;
+			Score = m_score;
+
+			scoreTimer+=Time.deltaTime;
+	
+			if(scoreTimer >=1.0f)
+			{
+				m_score+=scoreOT;
+				scoreTimer=0;
+			}
+	
+			// Store the input from the player
+		    v_Input = Input.GetAxis("Vertical");
+		    h_Input = -Input.GetAxis("Horizontal");
+		    
+		    // translate the input read from player this iteration 
+		    transform.Rotate(0,0, h_Input * Time.deltaTime * r_speed);
+		   	transform.position += transform.up * v_Input * Time.deltaTime * m_speed;
+			
+			transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 		}
-
-
-		// Store the input from the player
-	    v_Input = Input.GetAxis("Vertical");
-	    h_Input = -Input.GetAxis("Horizontal");
-	    
-	    // check if there is vertical movement and bool it
-	    moving  = (v_Input > 0)? true:false;
-	    	
-	    // translate the input read from player this iteration 
-	    transform.Rotate(0,0, h_Input * Time.deltaTime * r_speed);
-	    transform.Translate(0, v_Input * Time.deltaTime * m_speed, 0);
-	   
-
-	    if(v_Input == 0)
-	       	m_speed -= Time.deltaTime * .5f;
-	    else
-	    	m_speed = 10.0f;
-	    
-	    if(h_Input == 0)
-	    
-	    	r_speed -= Time.deltaTime;
-	     else
-	    	r_speed = 50.0f;
+		
+		if(Input.GetKey(KeyCode.Space))
+		{
+			for(int i = 0; i < guns.Length; i++)
+			{
+				guns[i].Shoot(transform.up);	
+			}
 		}
 
 	}
 
-	//transform.Rotate(Input.GetButton("Up"),90.0f);
 	void OnTriggerEnter(Collider other)
 	{
 
-		//print (other.tag);
+		print (other.tag);
 		switch (other.tag) {
 			case "Enemy":
 				Hit();
@@ -117,8 +105,11 @@ public class Player : Unit
 				CollectedPowerup(collected.type);
 				collected.OnCollected();
 			break;
-		case "Floating":
+			case "Floating":
 			//Destroy(other.gameObject);
+				Hit();
+			break;
+			case "EnemyBullet":
 				Hit();
 			break;
 		}

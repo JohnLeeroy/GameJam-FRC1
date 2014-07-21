@@ -86,7 +86,6 @@ public class EnemySpawner : MonoBehaviour {
 			GameplayUI.getInstance().UpdateEnemyCounter(index, lEnemyTwo.Count);
 		} 
 		else if (index == 2) {
-			print ("ENEMYadsgdjjdgkl;glkjg;lkadgj;ldkj");
 			enemyThree = newEnemy;
 			GameplayUI.getInstance().UpdateEnemyCounter(index, 1);
 		}

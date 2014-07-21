@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Missile : MonoBehaviour {
+public class Missile : Projectile {
 
 	// Use this for initialization
 	void Start () {
@@ -9,7 +9,7 @@ public class Missile : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public override void  Launch (Vector3 dir) {
 	
 	}
 }

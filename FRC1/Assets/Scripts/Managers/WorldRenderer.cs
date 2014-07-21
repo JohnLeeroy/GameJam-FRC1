@@ -88,14 +88,6 @@ public class WorldRenderer : MonoBehaviour {
 			yield return new WaitForSeconds(spawnInterval);
 		}
 	}
-	
-    float getRandomOffset(float spawnRadius, float minSpawnDistance)
-    {
-        float rnd = Random.Range(-spawnRadius, spawnRadius);
-        while (rnd == 0.0f) 
-			rnd = Random.Range(-spawnRadius, spawnRadius);
-        return  (Mathf.Abs(rnd) > minSpawnDistance) ? rnd : rnd + ((rnd > 0) ? 1 : -1) * minSpawnDistance;
-    }
 
 	float GetRandomDistance()
 	{
@@ -103,6 +95,7 @@ public class WorldRenderer : MonoBehaviour {
 		float distance = (Random.Range(0, 100) > 50) ? -mag : mag;
 		return distance;
 	}
+	
     void SpawnRandomObject()
     {
         if (backgroundObjects.Count <= maxObjectCount)
@@ -111,7 +104,7 @@ public class WorldRenderer : MonoBehaviour {
             
 			float xrandomOffset = GetRandomDistance();//Random.Range(-1, 1) * Random.Range(minSpawnDistance, spawnRadius);//getRandomOffset(spawnRadius, minSpawnDistance);
 	        float yrandomOffset = GetRandomDistance();//Random.Range(-1, 1) *  Random.Range(minSpawnDistance, spawnRadius);//getRandomOffset(spawnRadius, minSpawnDistance);
-	        float zrandomOffset = Mathf.Abs(getRandomOffset(spawnRadius, minSpawnDistance));
+	        float zrandomOffset = Mathf.Abs(GetRandomDistance());
 	        obj.transform.Translate(xrandomOffset, yrandomOffset, zrandomOffset);
 	        obj.transform.parent = GameObject.Find("BackgroundContainer").transform;
 			
@@ -120,20 +113,8 @@ public class WorldRenderer : MonoBehaviour {
 				obj.transform.Translate(0, 0, Random.Range(200, 400));
 
 			backgroundObjects.Add(obj);
-			
-			print("Position: " + obj.transform.position);
         }
     }
-
-    public void AddObject(GameObject obj, bool foreground)
-    {
-		/*
-        if (foreground) 
-			foregroundObjects.Add(obj);
-        else 
-			backgroundObjects.Add(obj);
-			*/
-	}
 }
 
 

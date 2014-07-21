@@ -3,33 +3,31 @@ using System.Collections;
 
 public class Enemy : Unit {
 
+	public GameObject soundExplosionDummy;
 	public GameObject[] powerupPrefabs;
-	public GameObject prefabBullet;
-	private GameObject player;
-
+	public ParticleSystem enemyDead;	
+	
 	const int STATE_SEARCH = 0;
 	const int STATE_ATTACK = 1;
-	const int STATE_DESTROYED = 2;
 
 	public int m_typeIndex = 0; 
 	int m_state = 0;
 
 	public float m_search_distance = 150f;
-	public float m_rof = .5f; 				//rate of fire
-	public float m_range = 5f;
+	public float m_range = 20f;
 	public float rotate_rate = 20;
 	public float rangeFromPlayer = 10; 
 	public int   powerupDropChance = 100;
-
-	public GameObject soundExplosionDummy;
-
-	bool isReadyToFire = true;
+	
+	public Gun gun;
 
 	//Score to player
 	public int m_score;
 
 	public static Transform target;
-	public ParticleSystem enemyDead;
+	
+	private GameObject player;
+
 	void Awake()
 	{
 		m_health = 1;
@@ -65,12 +63,6 @@ public class Enemy : Unit {
 		ChangeState (STATE_ATTACK);
 	}
 
-	IEnumerator CR_FireCooldown()
-	{
-		yield return new WaitForSeconds (m_rof);
-		isReadyToFire = true;
-	}
-
 	IEnumerator CR_ATTACK()
 	{
 		float distance;
@@ -79,7 +71,7 @@ public class Enemy : Unit {
 			distance = GetDistance();
 			if(distance <= m_search_distance)	//if within sight distance
 			{
-				if(isReadyToFire && distance <= m_range) 		//if within attack range
+				if(distance <= m_range) 		//if within attack range
 				{
 					Attack();					//attack
 				}
@@ -108,9 +100,6 @@ public class Enemy : Unit {
 	        case STATE_ATTACK:
 	            StartCoroutine("CR_ATTACK");
 	            break;
-	        case STATE_DESTROYED:
-	            StopAllCoroutines();
-	            break;
 	    }
 	}
 
@@ -126,30 +115,24 @@ public class Enemy : Unit {
 		Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
 		transform.rotation = Quaternion.LookRotation(new Vector3(newDir.x, newDir.y, 0));
 
-		transform.position += transform.forward * m_speed * Time.deltaTime;
+		transform.position += transform.forward * m_speed * Time.deltaTime;	//HACK because axis is incorrect
 
 		transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-		//transform.postion = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime);
 	}
 
 	void Attack()
 	{
-		isReadyToFire = false;
-		StartCoroutine (CR_FireCooldown ());
-
-		//instantiate bullet code
-		GameObject bullet = (GameObject)Instantiate (prefabBullet, transform.position + transform.forward * 5, transform.rotation);
-		//bullet.GetComponent<Laser>().
+		gun.Shoot(transform.forward);
 	}
+	
 	private bool isQuitting = false; 
 	void OnApplicationQuit() { isQuitting = true; }
 
 	override public void Hit()
 	{
-	
 		base.Hit();
-
 	}
+	
 	void OnDestroy()
 	{
 		StopAllCoroutines ();

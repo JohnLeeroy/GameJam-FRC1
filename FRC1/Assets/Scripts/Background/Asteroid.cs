@@ -21,7 +21,7 @@ public class Asteroid : Unit {
 
 
 		//transform.Rotate(new Vector3(0,1,1),Space.World);
-		transform.Translate(m_velocity*Time.deltaTime);
+		//transform.Translate(m_velocity*Time.deltaTime);
 
         
                 
