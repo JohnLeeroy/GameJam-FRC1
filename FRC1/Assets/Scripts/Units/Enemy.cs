@@ -30,7 +30,6 @@ public class Enemy : Unit {
 
 	void Awake()
 	{
-		m_health = 1;
 		m_speed = 10;
 
 		gameObject.name = "EnemyShip";
@@ -61,6 +60,7 @@ public class Enemy : Unit {
 			yield return 0;
 		}
 		ChangeState (STATE_ATTACK);
+		yield return 0;
 	}
 
 	IEnumerator CR_ATTACK()
@@ -85,6 +85,7 @@ public class Enemy : Unit {
 			yield return 0;
 		}
 		ChangeState (STATE_SEARCH);
+		yield return 0;
 	}
 	
 	public void ChangeState(int NEW_STATE)
@@ -122,7 +123,8 @@ public class Enemy : Unit {
 
 	void Attack()
 	{
-		gun.Shoot(transform.forward);
+		if(Player.Instance.m_health > 0)
+			gun.Shoot(transform.forward);
 	}
 	
 	private bool isQuitting = false; 
@@ -158,6 +160,7 @@ public class Enemy : Unit {
 	{
 		print ("Spawn Powerup");
 		int type = Random.Range (0, 1);
-		Instantiate (powerupPrefabs [type], transform.position, Quaternion.identity);
+		GameObject powerup = (GameObject)Instantiate (powerupPrefabs [type], transform.position, Quaternion.identity);
+		powerup.transform.position = new Vector3(powerup.transform.position.x, powerup.transform.position.y, 0);
 	}
 }

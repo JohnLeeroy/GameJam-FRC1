@@ -9,10 +9,10 @@ public class Gun : MonoBehaviour {
 	protected bool isReadyToFire = true;
 	
 	public float rateOfFire = 1f;
-	
+	public float modifier = 1f;
 	protected IEnumerator CR_FireCooldown()
 	{
-		yield return new WaitForSeconds (rateOfFire);
+		yield return new WaitForSeconds (rateOfFire * modifier);
 		isReadyToFire = true;
 	}
 
@@ -22,7 +22,13 @@ public class Gun : MonoBehaviour {
 		{
 			GameObject proj = (GameObject) Instantiate(prefabProjectile, transform.position + transform.forward * 2, transform.rotation);	
 			proj.GetComponent<Projectile>().Launch(dir);
+			
+			//if(audio != null)
+			//	Instantiate(audio);
+			AudioManager.getInstance().Play(Random.Range(AudioManager.LASER_ONE, AudioManager.LASER_THREE));
+			
 			isReadyToFire = false;
+			
 			StartCoroutine(CR_FireCooldown());
 		}
 	}

@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour {
 	//Private
 	List<GameObject> lEnemyOne;
 	List<GameObject> lEnemyTwo;
-	GameObject enemyThree = null;
+	List<GameObject> lEnemyThree;
 	Transform player;
 
 	//Singleton
@@ -37,6 +37,7 @@ public class EnemySpawner : MonoBehaviour {
 		instance = this;
 		lEnemyOne = new List<GameObject> ( maxEnemyOne );
 		lEnemyTwo = new List<GameObject> ( maxEnemyTwo );
+		lEnemyThree = new List<GameObject> ( maxEnemyThree );
 		player = GameObject.Find ("Player").transform;
 		
 		StartCoroutine (CR_Spawn ());
@@ -56,7 +57,7 @@ public class EnemySpawner : MonoBehaviour {
 				SpawnEnemy(1);
 				yield return new WaitForSeconds(spawnInterval);
 			}
-			else if(enemyThree = null)
+			else if(lEnemyThree.Count < maxEnemyThree)
 			{
 				SpawnEnemy(2);
 				yield return new WaitForSeconds(spawnInterval);
@@ -81,8 +82,8 @@ public class EnemySpawner : MonoBehaviour {
 			GameplayUI.getInstance().UpdateEnemyCounter(index, lEnemyTwo.Count);
 		} 
 		else if (index == 2) {
-			enemyThree = newEnemy;
-			GameplayUI.getInstance().UpdateEnemyCounter(index, 1);
+			lEnemyThree.Add(newEnemy);
+			GameplayUI.getInstance().UpdateEnemyCounter(index, lEnemyThree.Count);
 		}
 	}
 
@@ -103,8 +104,8 @@ public class EnemySpawner : MonoBehaviour {
         }
         else if (Type == 2)
         {
-            enemyThree = null;
-			GameplayUI.getInstance().UpdateEnemyCounter(Type, 0);
+            lEnemyThree.Remove(enemy);
+			GameplayUI.getInstance().UpdateEnemyCounter(Type, lEnemyThree.Count);
         }
 	}
 }

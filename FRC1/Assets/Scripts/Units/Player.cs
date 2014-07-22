@@ -115,6 +115,7 @@ public class Player : Unit
 		{
 			for(int i = 0; i < selectedGuns.Length; i++)
 				selectedGuns[i].Shoot(transform.up);	
+			//AudioManager.getInstance().Play(Random.Range(AudioManager.LASER_ONE, AudioManager.LASER_THREE));
 		}
 	}
 
@@ -148,13 +149,27 @@ public class Player : Unit
 	void CollectedPowerup(Powerup powerup)
 	{
 		int type = powerup.type;
+		AudioManager.getInstance().Play(AudioManager.POWERUP_PICKUP);
 		print ("Collected Powerup " + type.ToString ());
 		switch (type) {
 			case Powerup.TYPE_LASER:
-
+				foreach(Gun gun in stageZeroGuns)
+					gun.modifier *= .9f;
+				foreach(Gun gun in stageOneGuns)
+						gun.modifier *= .9f;
+				foreach(Gun gun in stageTwoGuns)
+						gun.modifier *= .9f;
+				powerup.OnCollected();
 			break;
 			case Powerup.TYPE_BULLET:
+				foreach(Gun gun in stageZeroGuns)
+					gun.modifier *= .9f;
+				foreach(Gun gun in stageOneGuns)
+						gun.modifier *= .9f;
+				foreach(Gun gun in stageTwoGuns)
+						gun.modifier *= .9f;
 			
+				powerup.OnCollected();
 			break;
 			case Powerup.TYPE_ARMOR:
 				if(stage == 0)
@@ -192,6 +207,8 @@ public class Player : Unit
         {
 			isAlive=false;
 			Instantiate(soundDummy,this.transform.position,this.transform.rotation);
+			AudioManager.getInstance().Play(AudioManager.PLAYER_DEATH);
+			
             //Destroy(gameObject);
         }
     }
