@@ -136,7 +136,7 @@ public class Enemy : Unit {
 	void OnDestroy()
 	{
 		StopAllCoroutines ();
-		//EnemySpawner.getInstance ().RemoveEnemy (m_typeIndex, gameObject);
+		EnemySpawner.getInstance ().RemoveEnemy (m_typeIndex, gameObject);
 		Player play = player.GetComponent<Player>();
 		if (!isQuitting && player != null) {
 			Instantiate (enemyDead, this.transform.position, this.transform.rotation);

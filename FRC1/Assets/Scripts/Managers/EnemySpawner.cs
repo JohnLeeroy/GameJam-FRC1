@@ -23,11 +23,6 @@ public class EnemySpawner : MonoBehaviour {
 	static EnemySpawner instance;
 	public static EnemySpawner getInstance()
 	{
-		//if (instance == null)
-		//	instance = this;
-		//else
-		//	Destroy (gameObject);
-
 		return instance;
 	}
 
@@ -93,29 +88,23 @@ public class EnemySpawner : MonoBehaviour {
 
 	public void RemoveEnemy(int Type, GameObject enemy)
 	{
-            //throw new System.Exception();
-            if (enemy.tag == "Enemy")
-            {
-                Enemy e = enemy.GetComponent<Enemy>();
-                e.ChangeState(2);
-            }
-
-			GameplayUI.getInstance().UpdateEnemyCounter(Type, -1);
-		
-            if (Type == 0)
-            {
-                lEnemyOne.Remove(enemy);
-				GameplayUI.getInstance().UpdateEnemyCounter(Type, lEnemyOne.Count);
-            }
-            else if (Type == 1)
-            {
-                lEnemyTwo.Remove(enemy);
-				GameplayUI.getInstance().UpdateEnemyCounter(Type, lEnemyTwo.Count);
-            }
-            else if (Type == 2)
-            {
-                enemyThree = null;
-				GameplayUI.getInstance().UpdateEnemyCounter(Type, 0);
-            }
+		print("Remove Enemy");
+		GameplayUI.getInstance().UpdateEnemyCounter(Type, -1);
+	
+        if (Type == 0)
+        {
+            lEnemyOne.Remove(enemy);
+			GameplayUI.getInstance().UpdateEnemyCounter(Type, lEnemyOne.Count);
+        }
+        else if (Type == 1)
+        {
+            lEnemyTwo.Remove(enemy);
+			GameplayUI.getInstance().UpdateEnemyCounter(Type, lEnemyTwo.Count);
+        }
+        else if (Type == 2)
+        {
+            enemyThree = null;
+			GameplayUI.getInstance().UpdateEnemyCounter(Type, 0);
+        }
 	}
 }

@@ -16,8 +16,12 @@ public class Powerup : MonoBehaviour {
 		if (player == null)
 			player = GameObject.FindGameObjectWithTag ("Player").transform;
 
-		StartCoroutine (CR_DistanceCheck ());
 		transform.parent = GameObject.Find ("BackgroundSpawner").transform;
+	}
+	
+	void Start()
+	{
+		StartCoroutine (CR_DistanceCheck ());
 	}
 	
 	float GetDistance()
@@ -30,7 +34,9 @@ public class Powerup : MonoBehaviour {
 	{
 		while (true) {
 			if(GetDistance() > 150)
+			{
 				Destroy(gameObject);
+			}
 			yield return new WaitForSeconds(1); //check every second	
 		}
 	}
@@ -42,6 +48,6 @@ public class Powerup : MonoBehaviour {
 
 	void OnDestroy()
 	{
-		StopAllCoroutines ();
+		PowerupSpawner.getInstance().RemovePowerup(this);
 	}
 }

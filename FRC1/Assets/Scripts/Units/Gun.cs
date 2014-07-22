@@ -5,18 +5,18 @@ public class Gun : MonoBehaviour {
 	
 	public GameObject prefabProjectile;
 	
-	bool isFireable = true;
-	bool isReadyToFire = true;
+	protected bool isFireable = true;
+	protected bool isReadyToFire = true;
 	
 	public float rateOfFire = 1f;
 	
-	IEnumerator CR_FireCooldown()
+	protected IEnumerator CR_FireCooldown()
 	{
 		yield return new WaitForSeconds (rateOfFire);
 		isReadyToFire = true;
 	}
 
-	public void Shoot(Vector3 dir)
+	public virtual void Shoot(Vector3 dir)
 	{
 		if(isReadyToFire && isFireable)
 		{
@@ -25,5 +25,17 @@ public class Gun : MonoBehaviour {
 			isReadyToFire = false;
 			StartCoroutine(CR_FireCooldown());
 		}
+	}
+	
+	
+	void OnEnable()
+	{
+		Reset();
+	}
+	
+	void Reset()
+	{
+		isFireable = true;
+		isReadyToFire = true;
 	}
 }
